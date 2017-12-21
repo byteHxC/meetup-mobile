@@ -1,48 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator} from 'react-native';
-import {fetchMeetups} from './constants/api'
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Colors from './constants/Colors';
+import { HomeScreen } from './src/screens'
+import { cachedFonts } from './helpers';
+import { AppLoading } from 'expo';
+EStyleSheet.build(Colors);
 
 export default class App extends React.Component {
-  static defaultProps = {
-    fetchMeetups
-  }
   state = {
-    loading: false,
-    meetups: []
+    fontLoaded: false
   }
-  async componentDidMount(){
-    this.setState({
-      loading: true
-    })
-    const data = await this.props.fetchMeetups();
-    this.setState({
-      loading: false, meetups: data.meetups
-    })
+  componentDidMount(){
+    this._loadAssetsAsync();
   }
-  render() {
-    if(this.state.loading){
-      return (
-        <View>
-          <ActivityIndicator size="large" style={styles.container}/>
-        </View>
-      )
+  async _loadAssetsAsync (){
+    const fontAssets = cachedFonts([
+      {
+        montserrat: require('./assets/fonts/Montserrat-Regular.ttf')
+      },
+      {
+        montserratBold: require('./assets/fonts/Montserrat-Bold.ttf')
+      },
+      {
+        montserratLight: require('./assets/fonts/Montserrat-Light.ttf')
+      },
+      {
+        montserratMed: require('./assets/fonts/Montserrat-Medium.ttf')
+      }
+    ])
+
+    await Promise.all(fontAssets);
+    this.setState({fontLoaded: true})
+  }
+  render(){
+    if(!this.state.fontLoaded){
+      return <AppLoading />
     }
-    return (
-      <View style={styles.container}>
-        <Text>MeetupME</Text>
-        {this.state.meetups.map((meetup, index) => (
-          <Text key={index}>{meetup.title}</Text>
-        ))}
-      </View>
-    );
+    return <HomeScreen/>;
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

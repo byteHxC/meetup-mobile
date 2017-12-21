@@ -1,0 +1,23 @@
+{
+  "name": "meetup",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "FBlanco",
+  "license": "MIT",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "4.7.7",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.1"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon index.js"
+  }
+}

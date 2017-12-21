@@ -12,7 +12,7 @@ const styles = EStyleSheet.create({
     // backgroundColor: 'red'
   },
   bottomContainer: {
-    flex: 0.8,
+    flex: 0.9,
     // backgroundColor: 'blue'
   }
 });
